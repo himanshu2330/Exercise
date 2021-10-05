@@ -1,0 +1,9 @@
+[webservers]
+foo.example.com
+
+
+[dbservers]
+one.example.com
+
+[appservers]
+two.example.com

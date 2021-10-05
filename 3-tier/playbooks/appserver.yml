@@ -1,0 +1,30 @@
+---
+- hosts: appservers
+  vars_files: 
+    - var.yml
+
+  tasks:
+  - name: updating repository cache
+    apt: update_cache=yes   
+
+  - name: Installing php
+    apt: name=php-fpm state=latest
+
+  - name: Changing configuration of php conf file
+    shell: |
+      sudo sed -i '/^cgi.fix_pathinfo/d' /etc/php/7.0/fpm/php.ini
+      sudo echo "cgi.fix_pathinfo=0" >> /etc/php/7.0/fpm/php.ini
+
+    notify:
+      - restart php
+
+  - name: Copy default file
+    copy:
+      src=files/info.php
+      dest=/var/www/html/info.php
+      owner={{ php_user }}
+      group={{ php_group }}
+
+  handlers:
+    - name: restart php
+      service: name=php7.0-fpm state=reloaded

@@ -1,0 +1,44 @@
+---
+- hosts: webservers
+  vars_files: 
+    - var.yml
+
+  tasks:
+  - name: updating repository cache
+    apt: update_cache=yes   
+
+  - name: Installing nginx
+    apt: name=nginx state=latest
+
+    notify:
+      - restart nginx
+
+  - name: enabling port for nginx
+    shell: sudo ufw allow 'Nginx HTTP'
+
+  - name: Grepping ip for nginx
+    shell: ip addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'
+    register: ipaddr
+
+  - name: Storing IP in a variable
+    set_fact:
+      ipaddress: {{ipaddr.msg}}
+
+  - name: Printing IP address
+    debug:
+      msg: {{ ipaddress }}
+    
+  - name: Copy default file
+    copy:
+      src=files/default
+      dest= {{ default_path }}
+      owner={{ nginx_user }}
+      group={{ nginx_group }}
+    notify:
+      - restart nginx
+
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=reloaded
+    

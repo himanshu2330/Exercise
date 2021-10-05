@@ -1,0 +1,6 @@
+---
+default_path: /etc/nginx/sites-available/default
+nginx_user: root
+nginx_group: root
+php_user: root
+php_group: root

@@ -38,7 +38,5 @@
       - restart nginx
 
 
-  handlers:
-    - name: restart nginx
-      service: name=nginx state=reloaded
+
     

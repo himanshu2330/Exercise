@@ -25,6 +25,5 @@
       owner={{ php_user }}
       group={{ php_group }}
 
-  handlers:
-    - name: restart php
-      service: name=php7.0-fpm state=reloaded
+
+    

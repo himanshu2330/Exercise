@@ -25,6 +25,3 @@
       sudo echo "host all all 0.0.0.0/0 md5" >> /var/lib/pgsql/data/pg_hba.conf
       sudo systemctl restart postgresql.service
 
-  handlers:
-    - name: restart postgresql-server
-      service: name=postgresql-serverr state=reloaded

@@ -57,6 +57,8 @@ else:
     raise Exception("ERROR:: Unable to fetch reservation-id localhostname")
 Response_json.append(response4)
 
+print(Response_json)
+
 
 
 
